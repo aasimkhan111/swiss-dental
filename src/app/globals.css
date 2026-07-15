@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #C5A030;
+  --color-red-600: #DC143C;
+  --color-charcoal-900: #333333;
+  --color-charcoal-800: #444444;
+  --font-sans: var(--font-cairo);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #333333;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+html {
+  scroll-behavior: smooth;
+  transition: direction 0.3s ease;
+}
