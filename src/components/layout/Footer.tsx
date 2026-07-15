@@ -14,8 +14,8 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand & Intro */}
           <div>
-            <div className="flex items-center mb-6 bg-white p-2 rounded-lg inline-block">
-              <Image src="/swiss.jpg" alt="Swiss Dental" width={180} height={60} className="h-12 w-auto object-contain" />
+            <div className="flex items-center mb-6 bg-white p-3 rounded-xl inline-block">
+              <Image src="/swiss.jpg" alt="Swiss Dental" width={240} height={80} className="h-16 w-auto object-contain" />
             </div>
             <p className="text-gray-400 leading-relaxed text-sm">
               {isEn 
