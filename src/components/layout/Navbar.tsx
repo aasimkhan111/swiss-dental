@@ -11,10 +11,10 @@ export function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
-      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+      <div className="container mx-auto px-4 h-24 md:h-28 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <Image src="/swiss.jpg" alt="Swiss Dental" width={180} height={60} className="h-12 w-auto object-contain" />
+          <Image src="/swiss.jpg" alt="Swiss Dental" width={240} height={80} className="h-16 md:h-24 w-auto object-contain py-2" />
         </Link>
 
         {/* Desktop Nav */}
