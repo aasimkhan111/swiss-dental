@@ -13,7 +13,7 @@ export function Hero() {
       {/* Background with overlay */}
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2940&auto=format&fit=crop")' }}
+        style={{ backgroundImage: 'url("/hero-interior.png")' }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent (prefers-color-scheme: dark):from-charcoal-900/95" />
       </div>

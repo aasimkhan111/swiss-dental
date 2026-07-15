@@ -1,43 +1,58 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { Star, MapPin } from "lucide-react";
-import Image from "next/image";
 
 const mockReviews = [
   {
-    id: 1,
-    author: "Sarah A.",
+    id: "mock1",
+    author_name: "Sarah A.",
     rating: 5,
-    textEn: "Exceptional service! The staff is incredibly professional and the clinic is spotless. Best dental experience in Kuwait.",
+    text: "Exceptional service! The staff is incredibly professional and the clinic is spotless. Best dental experience in Kuwait.",
     textAr: "خدمة استثنائية! طاقم العمل محترف للغاية والعيادة نظيفة جداً. أفضل تجربة لطب الأسنان في الكويت.",
-    dateEn: "2 weeks ago",
-    dateAr: "قبل أسبوعين"
+    relative_time_description: "2 weeks ago",
+    dateAr: "قبل أسبوعين",
+    profile_photo_url: ""
   },
   {
-    id: 2,
-    author: "Mohammed K.",
+    id: "mock2",
+    author_name: "Mohammed K.",
     rating: 5,
-    textEn: "Got my veneers done here. The results exceeded my expectations. Dr. Ahmed is a true artist.",
+    text: "Got my veneers done here. The results exceeded my expectations. Dr. Ahmed is a true artist.",
     textAr: "قمت بتركيب الفينير هنا. النتائج فاقت توقعاتي. الدكتور أحمد فنان حقيقي.",
-    dateEn: "1 month ago",
-    dateAr: "قبل شهر"
+    relative_time_description: "1 month ago",
+    dateAr: "قبل شهر",
+    profile_photo_url: ""
   },
   {
-    id: 3,
-    author: "Fatima R.",
+    id: "mock3",
+    author_name: "Fatima R.",
     rating: 5,
-    textEn: "Painless root canal! I was terrified but they made me feel so comfortable. Highly recommended.",
+    text: "Painless root canal! I was terrified but they made me feel so comfortable. Highly recommended.",
     textAr: "علاج عصب بدون ألم! كنت خائفة جداً ولكنهم جعلوني أشعر براحة تامة. أنصح بهم بشدة.",
-    dateEn: "2 months ago",
-    dateAr: "قبل شهرين"
+    relative_time_description: "2 months ago",
+    dateAr: "قبل شهرين",
+    profile_photo_url: ""
   }
 ];
 
 export function ReviewsShowcase() {
   const { language } = useLanguage();
   const isEn = language === 'en';
+  const [reviews, setReviews] = useState<any[]>(mockReviews);
+
+  useEffect(() => {
+    fetch('/api/reviews')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0 && !data.error) {
+          setReviews(data);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <section id="reviews" className="py-24 bg-gray-50">
@@ -78,33 +93,39 @@ export function ReviewsShowcase() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {mockReviews.map((review, index) => (
+          {reviews.map((review, index) => (
             <motion.div
-              key={review.id}
+              key={review.id || index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 + 0.2 }}
-              className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
+              className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col"
             >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-charcoal-900 rounded-full flex items-center justify-center text-white font-bold">
-                    {review.author.charAt(0)}
-                  </div>
+                  {review.profile_photo_url ? (
+                    <img src={review.profile_photo_url} alt={review.author_name} className="w-10 h-10 rounded-full" />
+                  ) : (
+                    <div className="w-10 h-10 bg-charcoal-900 rounded-full flex items-center justify-center text-white font-bold">
+                      {review.author_name?.charAt(0)}
+                    </div>
+                  )}
                   <div>
-                    <h4 className="font-bold text-charcoal-900">{review.author}</h4>
-                    <p className="text-xs text-gray-500">{isEn ? review.dateEn : review.dateAr}</p>
+                    <h4 className="font-bold text-charcoal-900 text-sm md:text-base line-clamp-1">{review.author_name}</h4>
+                    <p className="text-xs text-gray-500">
+                      {isEn ? review.relative_time_description : (review.dateAr || review.relative_time_description)}
+                    </p>
                   </div>
                 </div>
-                <div className="flex gap-0.5">
+                <div className="flex gap-0.5 shrink-0">
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <Star key={star} className="w-4 h-4 fill-gold-500 text-gold-500" />
+                    <Star key={star} className="w-3 h-3 fill-gold-500 text-gold-500" />
                   ))}
                 </div>
               </div>
-              <p className="text-gray-600 leading-relaxed">
-                {isEn ? review.textEn : review.textAr}
+              <p className="text-gray-600 leading-relaxed text-sm">
+                {!isEn && review.textAr ? review.textAr : review.text}
               </p>
             </motion.div>
           ))}
